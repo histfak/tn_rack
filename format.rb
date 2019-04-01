@@ -18,7 +18,7 @@ class Format
   end
 
   def unwanted_params
-    (@parts - VALUES.keys).to_a.join(', ')
+    (@parts - VALUES.keys).join(', ')
   end
 
   def response
