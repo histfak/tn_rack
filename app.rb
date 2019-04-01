@@ -15,7 +15,7 @@ class App
   private
 
   def headers
-    {'Content-Type' => 'text/plain'}
+    { 'Content-Type' => 'text/plain' }
   end
 
   def correct_path?(req)

@@ -1,16 +1,16 @@
 require 'set'
 
 class Format
-  VALUES = {'year' => "%Y",
-            'month' => "%m",
-            'day' => "%d",
-            'hour' => "%H",
-            'minute' => "%M",
-            'second' => "%S" }.freeze
+  VALUES = {'year' => '%Y-',
+            'month' => '%m-',
+            'day' => '%d',
+            'hour' => '%H:',
+            'minute' => '%M:',
+            'second' => '%S' }.freeze
 
   def initialize(hash)
-    @parts = hash["format"].split(",")
-    @answer = ""
+    @parts = hash['format'].split(',')
+    @answer = ''
   end
 
   def corrupted?
@@ -22,8 +22,8 @@ class Format
   end
 
   def response
-    requested.each { |format| @answer += Time.now.strftime(VALUES[format]) + "\n" }
-    ["#{@answer}"]
+    requested.each { |format| @answer += Time.now.strftime(VALUES[format]) }
+    [@answer.to_s]
   end
 
   private
