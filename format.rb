@@ -23,7 +23,7 @@ class Format
 
   def response
     requested.each { |format| @answer += Time.now.strftime(VALUES[format]) }
-    [@answer.to_s]
+    [@answer]
   end
 
   private
