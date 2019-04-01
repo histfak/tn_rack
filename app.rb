@@ -3,9 +3,8 @@ require_relative 'format'
 class App
   def call(env)
     req = Rack::Request.new(env)
-    params = req.params
     return [404, headers, ['Incorrect path!']] unless correct_path?(req)
-    format = Format.new(params)
+    format = Format.new(req.params)
     if format.corrupted?
       [400, headers, ['Unknown time format: ', format.unwanted_params]]
     else
