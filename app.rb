@@ -15,15 +15,15 @@ class App
 
   private
 
-  def headers
-    {'Content-Type' => 'text/plain'}
+  def default_headers
+    { 'Content-Type' => 'text/plain' }
   end
 
-  def make_response(status, body)
+  def make_response(status, headers = default_headers, body)
     [status, headers, [body]]
   end
 
   def correct_path?(req)
-    req.path_info == '/time' && req.scheme == 'http'
+    req.path_info == '/time' && req.request_method == 'GET'
   end
 end

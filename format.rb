@@ -1,27 +1,26 @@
 class Format
-  VALUES = {'year' => '%Y-',
-            'month' => '%m-',
-            'day' => '%d',
-            'hour' => '%H:',
-            'minute' => '%M:',
-            'second' => '%S' }.freeze
+  FORMATS = {'year' => '%Y-',
+             'month' => '%m-',
+             'day' => '%d',
+             'hour' => '%H:',
+             'minute' => '%M:',
+             'second' => '%S' }.freeze
 
   def initialize(parts)
-    @parts = parts
-    @requested = @parts & VALUES.keys
-    @answer = ''
+    @valid, @invalid = parts.partition { |part| FORMATS.key?(part) }
   end
 
   def corrupted?
-    true unless @parts.all? { |e| VALUES.key?(e) }
+    true unless @invalid.empty?
   end
 
   def unwanted_params
-    @parts - VALUES.keys
+    @invalid
   end
 
   def response
-    @requested.each { |format| @answer += VALUES[format] }
-    Time.now.strftime(@answer)
+    answer = ''
+    @valid.each { |format| answer += FORMATS[format] }
+    Time.now.strftime(answer)
   end
 end
