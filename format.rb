@@ -1,5 +1,3 @@
-require 'set'
-
 class Format
   VALUES = {'year' => '%Y-',
             'month' => '%m-',
@@ -8,27 +6,22 @@ class Format
             'minute' => '%M:',
             'second' => '%S' }.freeze
 
-  def initialize(hash)
-    @parts = hash['format'].split(',')
+  def initialize(parts)
+    @parts = parts
+    @requested = @parts & VALUES.keys
     @answer = ''
   end
 
   def corrupted?
-    true unless @parts.to_set.subset?(VALUES.keys.to_set)
+    true unless @parts.all? { |e| VALUES.key?(e) }
   end
 
   def unwanted_params
-    (@parts - VALUES.keys).join(', ')
+    @parts - VALUES.keys
   end
 
   def response
-    requested.each { |format| @answer += Time.now.strftime(VALUES[format]) }
-    [@answer]
-  end
-
-  private
-
-  def requested
-    @parts.to_set.intersection(VALUES.keys.to_set)
+    @requested.each { |format| @answer += VALUES[format] }
+    Time.now.strftime(@answer)
   end
 end
